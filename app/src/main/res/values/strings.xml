@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ImageToText</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="saved">Saved</string>
+    <string name="error_happened">Error</string>
+</resources>

@@ -1,22 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.components.takepicture.CaptureImageFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/camer_preview"
+    <RelativeLayout
+        android:id="@+id/layout_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:context=".ui.components.takepicture.CaptureImageFragment"
+        tools:ignore="UselessParent"
+        tools:visibility="gone">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/capture_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/ic_camera" />
+        <androidx.camera.view.PreviewView
+            android:id="@+id/camer_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-</RelativeLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/capture_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/ic_camera" />
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.components.takepicture.CaptureImageFragment"
+        tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/captured_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/scan_btn"
+            tools:src="@android:drawable/stat_sys_phone_call"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retake_btn"
+            android:layout_width="36dp"
+            app:layout_constraintTop_toTopOf="@id/scan_btn"
+            app:layout_constraintBottom_toBottomOf="@id/scan_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="12dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_retake"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scan_btn"
+            android:layout_width="36dp"
+            android:layout_margin="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_start_scan"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/crop_btn"
+            android:layout_width="36dp"
+            android:layout_margin="12dp"
+            android:layout_height="36dp"
+            app:layout_constraintTop_toTopOf="@id/scan_btn"
+            app:layout_constraintBottom_toBottomOf="@id/scan_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/ic_crop"/>
+
+        <!--  <LinearLayout
+            android:id="@+id/layout_2_footer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_weight="0.33"
+                android:layout_margin="12dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_retake"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_margin="12dp"
+                android:layout_weight="0.33"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_start_scan"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_margin="12dp"
+                android:layout_weight="0.33"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_crop"/>
+        </LinearLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

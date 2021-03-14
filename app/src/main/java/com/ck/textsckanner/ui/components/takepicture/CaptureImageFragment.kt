@@ -24,6 +24,8 @@ import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.ck.textsckanner.R
+import com.ck.textsckanner.ui.components.savetext.DetectedTextActivity
+import com.ck.textsckanner.utils.UiUtils.inspectFromBitmap
 import com.ck.textsckanner.utils.UiUtils.toBitmap
 import com.ck.textsckanner.utils.UiUtils.toast
 import com.google.android.material.button.MaterialButton
@@ -45,6 +47,7 @@ class CaptureImageFragment : Fragment() {
     private lateinit var cropBtn:MaterialButton
     private lateinit var imageView:AppCompatImageView
     private lateinit var bitmap:Bitmap
+    private var croppedBitmap:Bitmap?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,12 +85,23 @@ class CaptureImageFragment : Fragment() {
             layout2.visibility = View.GONE
             layout1.visibility = View.VISIBLE
         }
+        scanBtn.setOnClickListener {
+            val text = requireContext().inspectFromBitmap(bitmap)
+            val intent = Intent(requireContext(), DetectedTextActivity::class.java)
+            intent.putExtra("text", text)
+            startActivity(intent)
+        }
     }
 
     fun getImageUri(inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = Images.Media.insertImage(requireContext().getContentResolver(), inImage, "Title", null)
+        val path = Images.Media.insertImage(
+            requireContext().getContentResolver(),
+            inImage,
+            "Title",
+            null
+        )
         return Uri.parse(path)
     }
 
@@ -137,6 +151,7 @@ class CaptureImageFragment : Fragment() {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
                 val resultUri: Uri = result.uri
+                bitmap = Images.Media.getBitmap(requireContext().getContentResolver(), resultUri)
                 Log.e("resultUri ->", java.lang.String.valueOf(resultUri))
                 Glide.with(requireActivity())
                     .load(resultUri)

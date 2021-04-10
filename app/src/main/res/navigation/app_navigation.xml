@@ -3,19 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.ck.textsckanner.ui.components.takepicture.MainFragment"
-        android:label="MainFragment" >
+        android:id="@+id/homeFragment"
+        android:name="com.ck.dev.textsckanner.ui.home.HomeFragment"
+        android:label="HomeFragment" >
         <action
-            android:id="@+id/action_mainFragment_to_captureImageFragment"
+            android:id="@+id/action_homeFragment_to_captureImageFragment"
             app:destination="@id/captureImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/captureImageFragment"
-        android:name="com.ck.textsckanner.ui.components.takepicture.CaptureImageFragment"
+        android:name="com.ck.dev.textsckanner.ui.captureimage.CaptureImageFragment"
         android:label="fragment_capture_image"
-        tools:layout="@layout/fragment_capture_image" />
+        tools:layout="@layout/fragment_capture_image" >
+        <action
+            android:id="@+id/action_captureImageFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

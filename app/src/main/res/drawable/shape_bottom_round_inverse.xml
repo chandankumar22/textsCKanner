@@ -6,8 +6,8 @@
         android:right="@dimen/header_pd"
         android:top="@dimen/header_pd" />
     <corners
-        android:bottomLeftRadius="36dp"
-        android:bottomRightRadius="36dp"
+        android:bottomLeftRadius="@dimen/_36sdp"
+        android:bottomRightRadius="@dimen/_36sdp"
         android:topLeftRadius="0dp"
         android:topRightRadius="0dp" />
 

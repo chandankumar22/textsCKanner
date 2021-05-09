@@ -1,27 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.textview.MaterialTextView
+            tools:visibility="gone"
+
+            android:id="@+id/sort_by_tv"
+            style="@style/AppTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:text="Sort by"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <RadioGroup
+            tools:visibility="gone"
+
+            android:id="@+id/sort_by_rg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_12sdp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/sort_by_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sort_by_tv"
+            app:layout_constraintTop_toTopOf="@id/sort_by_tv">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/name_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:text="Name" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/date_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:textSize="@dimen/_10ssp"
+                android:text="Date" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/size_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:text="Size" />
+        </RadioGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/toolbar"
             style="@style/ToolbarStyle"
-            android:text="text sCKanner"
+            android:text="@string/toolbar_home_title"
             android:textAllCaps="false"
-            app:drawableEndCompat="@drawable/ic_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginEnd="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_36sdp"
+            android:maxLines="1"
+            android:elevation="@dimen/_20sdp"
+            android:maxLength="20"
+            android:inputType="text"
+            android:visibility="gone"
+            android:padding="@dimen/_8sdp"
+            android:hint="Enter search query"
+            app:backgroundTint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:layout_constraintStart_toStartOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="auto" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/search_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintBaseline_toBaselineOf="@id/search_bar"
+            android:layout_margin="@dimen/_16sdp"
+            android:background="@drawable/ic_search"
+            android:elevation="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/delete_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:layout_constraintBaseline_toBaselineOf="@id/search_bar"
+            android:layout_margin="@dimen/_16sdp"
+            android:background="@drawable/ic_list_delete"
+            android:elevation="@dimen/_10sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/share_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_16sdp"
+            android:background="@drawable/ic_share"
+            app:layout_constraintBaseline_toBaselineOf="@id/search_bar"
+            android:elevation="@dimen/_10sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/delete_ic"
+            app:layout_constraintEnd_toStartOf="@id/delete_ic"
+            app:layout_constraintTop_toTopOf="@id/delete_ic" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_16sdp"
+            android:visibility="gone"
+            android:background="@drawable/ic_left_arrow"
+            android:elevation="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/toolbar"
+            app:layout_constraintTop_toTopOf="@id/toolbar" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/selected_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_16sdp"
+            android:elevation="@dimen/_10sdp"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/toolbar_text_size"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/back_btn"
+            app:layout_constraintStart_toEndOf="@id/back_btn"
+            app:layout_constraintTop_toTopOf="@id/back_btn" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:visibility="gone"
+
+            android:id="@+id/scanned_doc_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toTopOf="@id/camera_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sort_by_rg" />
+
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/camera_btn"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:background="@drawable/shape_circle"
-            android:elevation="10dp"
+            android:elevation="@dimen/_10sdp"
             android:src="@drawable/ic_camera"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/camera_tv"
@@ -35,14 +188,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/welcome_line_tv"
-            android:layout_marginBottom="18dp"/>
+            android:layout_marginBottom="@dimen/_18sdp"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/welcome_line_tv"
             style="@style/AppTextStyle"
             android:layout_width="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginEnd="36dp"
+            android:layout_marginStart="@dimen/_36sdp"
+            android:layout_marginEnd="@dimen/_36sdp"
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@android:color/darker_gray"
@@ -60,21 +213,20 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="36dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/_36sdp"
+            android:layout_marginEnd="@dimen/_36sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:text="Upload your images from camera or gallery, and text sckanner will extract text from your image which you can save and share."
-            android:textSize="14sp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/welcome_line_tv" />-->
-
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/gallery_btn"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:background="@drawable/shape_circle"
-            android:elevation="10dp"
+            android:elevation="@dimen/_10sdp"
             android:src="@drawable/ic_gallery"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/gallery_tv"
@@ -102,6 +254,7 @@
             app:layout_constraintStart_toStartOf="@id/gallery_btn" />
 
         <View
+            android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_rounded_view_size"
             android:background="@drawable/shape_bottom_round"
@@ -109,5 +262,181 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/app_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="Welcome to textSckanner"
+            android:layout_marginTop="@dimen/_64sdp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/app_logo"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_marginTop="@dimen/_22sdp"
+            app:layout_constraintStart_toStartOf="@id/app_name_tv"
+            app:layout_constraintEnd_toEndOf="@id/app_name_tv"
+            app:layout_constraintTop_toBottomOf="@id/app_name_tv"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/welcome_content"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="@string/welcome_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="@id/app_logo"
+            app:layout_constraintEnd_toEndOf="@id/app_logo"
+            app:layout_constraintTop_toBottomOf="@id/app_logo"
+            />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <layout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/toolbar"
+                style="@style/ToolbarStyle"
+                android:text="text sCKanner"
+                android:textAllCaps="false"
+                app:drawableEndCompat="@drawable/ic_search"
+                android:layout_gravity="top"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/scanned_doc_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/footer"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:layout_behavior=".ui.BottomNavigationBehavior"
+                tools:context=".ui.MainActivity">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/camera_btn"
+                    android:layout_width="@dimen/_56sdp"
+                    android:layout_height="@dimen/_56sdp"
+                    android:background="@drawable/shape_circle"
+                    android:elevation="@dimen/_10sdp"
+                    android:src="@drawable/ic_camera"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/camera_tv"
+                    app:layout_constraintEnd_toStartOf="@+id/gallery_btn"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent" />
+                &lt;!&ndash;<androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/logo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/welcome_line_tv"
+                    android:layout_marginBottom="@dimen/_18sdp"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/welcome_line_tv"
+                    style="@style/AppTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/_36sdp"
+                    android:layout_marginEnd="@dimen/_36sdp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/darker_gray"
+                    app:fontFamily="@font/montserrat_bold"
+                    android:text="Welcome to text sCKanner, an OCR technology"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/welcome_para_tv"
+                    style="@style/AppTextStyle"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginStart="@dimen/_36sdp"
+                    android:layout_marginEnd="@dimen/_36sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="Upload your images from camera or gallery, and text sckanner will extract text from your image which you can save and share."
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/welcome_line_tv" />&ndash;&gt;
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/gallery_btn"
+                    android:layout_width="@dimen/_56sdp"
+                    android:layout_height="@dimen/_56sdp"
+                    android:background="@drawable/shape_circle"
+                    android:elevation="@dimen/_10sdp"
+                    android:src="@drawable/ic_gallery"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/gallery_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/camera_btn" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/camera_tv"
+                    style="@style/AppTextStyle"
+                    android:letterSpacing="0.09"
+                    android:text="Camera"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/camera_btn"
+                    app:layout_constraintStart_toStartOf="@id/camera_btn" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/gallery_tv"
+                    style="@style/AppTextStyle"
+                    android:text="Gallery"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/gallery_btn"
+                    app:layout_constraintStart_toStartOf="@id/gallery_btn" />
+
+                <View
+                    android:id="@+id/footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bottom_rounded_view_size"
+                    android:background="@drawable/shape_bottom_round"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </layout>-->

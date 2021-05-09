@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import com.ck.dev.textsckanner.utils.Constants.APP_PRIVATE_DIR
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -17,9 +17,9 @@ object Utility {
 
     var detectedText:String = ""
     lateinit var bitmap: Bitmap
-    var APP_PRIVATE_STORAGE_DIR  = ""
+
     fun createLocalDirs(context: Context) {
-        val rootInternalDir =
+        /*val rootInternalDir =
             File(context.filesDir.toString() + "/" + APP_PRIVATE_DIR)
         val makePvtDirSuccess: Boolean
         if (!rootInternalDir.exists()) {
@@ -34,7 +34,7 @@ object Utility {
             APP_PRIVATE_STORAGE_DIR =
                 context.filesDir.toString() + "/" + APP_PRIVATE_DIR
             Timber.d("App private dir path already exists")
-        }
+        }*/
     }
 
     fun getImageUri(context: Context, inImage: Bitmap): Uri? {
@@ -93,29 +93,37 @@ object Utility {
         }
     }
 
-     fun saveImageToInternal(bitmap: Bitmap){
+     fun AppCompatActivity.saveImageToInternal(bitmap: Bitmap){
         val imageName = "IMG${System.currentTimeMillis()}.jpg"
+         try{
+             val os = openFileOutput(imageName, Context.MODE_PRIVATE)
+             val baos = ByteArrayOutputStream()
+             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos) // It can be also saved it as JPEG
+             os.write(baos.toByteArray())
+         }catch (ex:IOException){
+             Timber.e(ex, "Saving image failed with")
+         }
 
-        try {
-            val existingProfilePicPath = File(APP_PRIVATE_STORAGE_DIR, imageName)
-            if (existingProfilePicPath.exists()) {
-                existingProfilePicPath.delete()
-            }
-            if (!existingProfilePicPath.exists()) {
-                File(APP_PRIVATE_STORAGE_DIR).mkdirs()
-            } else {
-                existingProfilePicPath.delete()
-            }
-
-            val outputStream = FileOutputStream(existingProfilePicPath)
-            GlobalScope.launch {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                outputStream.close()
-            }
-        } catch (e: FileNotFoundException) {
-            Timber.e(e, "Saving image failed with")
-        } catch (e: IOException) {
-            Timber.e(e, "Saving image failed with")
-        }
+//        try {
+//            val existingProfilePicPath = File(APP_PRIVATE_STORAGE_DIR, imageName)
+//            if (existingProfilePicPath.exists()) {
+//                existingProfilePicPath.delete()
+//            }
+//            if (!existingProfilePicPath.exists()) {
+//                File(APP_PRIVATE_STORAGE_DIR).mkdirs()
+//            } else {
+//                existingProfilePicPath.delete()
+//            }
+//
+//            val outputStream = FileOutputStream(existingProfilePicPath)
+//            GlobalScope.launch {
+//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+//                outputStream.close()
+//            }
+//        } catch (e: FileNotFoundException) {
+//            Timber.e(e, "Saving image failed with")
+//        } catch (e: IOException) {
+//            Timber.e(e, "Saving image failed with")
+//        }
     }
 }

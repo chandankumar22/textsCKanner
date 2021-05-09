@@ -19,7 +19,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         android:background="@drawable/shape_bottom_round_inverse"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,13 +35,35 @@
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="@android:color/white" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/file_name"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_width="wrap_content"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp"
+        android:maxLength="20"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingTop="@dimen/_4sdp"
+        android:textSize="@dimen/_12ssp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@drawable/shape_bottom_round"
+        tools:text="long file name"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/detect_footer_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!--<androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detect_footer_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bottom_round"
-        android:padding="12dp"
+        android:padding="@dimen/_12sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -77,25 +99,93 @@
             android:text="Save DOC"
             android:textAlignment="center"
             app:drawableTopCompat="@drawable/ic_save_as_doc"
-            app:layout_constraintEnd_toStartOf="@id/save_as_pdf"
+            app:layout_constraintEnd_toStartOf="@id/share"
             app:layout_constraintStart_toEndOf="@id/edit_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/save_as_pdf"
+            android:id="@+id/share"
             style="@style/AppTextStyle"
             android:layout_margin="0dp"
             android:textSize="@dimen/icon_text_size"
-            android:text="Save PDF"
-            app:drawableTopCompat="@drawable/ic_save_as_pdf"
+            android:text="Share"
+            app:drawableTopCompat="@drawable/ic_share"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <LinearLayout
+        android:id="@+id/detect_footer_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_65sdp"
+        android:background="@drawable/shape_bottom_round"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/retry_scan"
+            style="@style/AppTextStyle"
+            android:layout_width="0dp"
+            android:textSize="@dimen/icon_text_size"
+            android:layout_margin="0dp"
+            android:gravity="center"
+            android:text="Retry"
+            android:layout_weight="0.25"
+            app:drawableTopCompat="@drawable/ic_retake"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/edit_btn"
+            style="@style/AppTextStyle"
+            android:layout_toEndOf="@id/retry_scan"
+            android:text="Edit"
+            android:layout_weight="0.25"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_42sdp"
+            android:gravity="center"
+            android:textSize="@dimen/icon_text_size"
+            android:textAlignment="center"
+            app:drawableTopCompat="@drawable/ic_edit"
+            app:layout_constraintEnd_toStartOf="@id/save_as_doc"
+            app:layout_constraintStart_toEndOf="@id/retry_scan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/save_as_doc"
+            style="@style/AppTextStyle"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:textSize="@dimen/icon_text_size"
+            android:text="Save"
+            android:textAlignment="center"
+            app:drawableTopCompat="@drawable/ic_save_as_doc"
+            app:layout_constraintEnd_toStartOf="@id/share"
+            app:layout_constraintStart_toEndOf="@id/edit_btn"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/share"
+            style="@style/AppTextStyle"
+            android:layout_margin="0dp"
+            android:layout_weight="0.25"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:textSize="@dimen/icon_text_size"
+            android:text="Share Text"
+            app:drawableTopCompat="@drawable/ic_share"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
   <!--  <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/_16sdp"
         android:tooltipText="Save"
         android:src="@drawable/ic_save"
         app:layout_constraintEnd_toEndOf="parent"

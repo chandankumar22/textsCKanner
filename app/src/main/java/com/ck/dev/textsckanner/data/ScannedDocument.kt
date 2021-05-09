@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "scanned_document")
 data class ScannedDocument (
-    @PrimaryKey val id: Int,
-    @ColumnInfo(name = "documentName") val documentName: String?,
+    @PrimaryKey
+    @ColumnInfo(name = "documentName") var documentName: String,
     @ColumnInfo(name = "documentTitle") val documentTitle: String?,
     @ColumnInfo(name = "documentImagePath") val imgPath: String?,
     @ColumnInfo(name = "documentPath") val docPath: String?,

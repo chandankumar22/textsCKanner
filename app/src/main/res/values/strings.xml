@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">textsCKanner</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="detected_text_tab_1">Text</string>
     <string name="detected_text_tab_2">Image</string>
-    <string name="detected_text_tab_3">Overlay</string>
+    <string name="error_happened">Failed. Please try again</string>
+    <string name="saved">Saved successfully</string>
+    <string name="toolbar_home_title">text sCKanner</string>
+    <string name="confirm_delete_content">Are you sure you want to delete %s documents ?</string>
+    <string name="welcome_content">\n1• Open Camera, click picture, extract text\n
+        2• Open Gallery, select picture, extract text\n
+        3• Save document to device storage and view them outside app\n
+        4• Search from saved documents by file name or content\n
+        5• Share saved documents with your friends and colleagues\n
+        6• Delete saved documents\n…and many more</string>
 </resources>

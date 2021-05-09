@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_16sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="File Name ?"
+        android:textStyle="bold"
+        android:textSize="@dimen/_18ssp"
+        android:fontFamily="@font/montserrat_bold"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"/>
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/et_container"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/_18sdp"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+      app:errorEnabled="true"
+      app:boxStrokeColor="@drawable/selector_edittext"
+    app:layout_constraintTop_toBottomOf="@id/dialog_title"
+    app:layout_constraintStart_toStartOf="parent">
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:maxLines="1"
+        android:inputType="text"
+        android:maxLength="40"
+      android:hint="Enter file name"/>
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/dialog_pos_btn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+    android:text="Save"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/et_container"/>
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/dialog_neg_btn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Cancel"
+      android:layout_marginEnd="@dimen/_12sdp"
+      app:layout_constraintEnd_toStartOf="@id/dialog_pos_btn"
+      app:layout_constraintBaseline_toBaselineOf="@id/dialog_pos_btn"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,12 @@
+
 package com.ck.dev.textsckanner.data
 
-interface AppDatabaseHelper {
-    suspend fun getUsers(): List<ScannedDocument>
+import androidx.lifecycle.LiveData
 
-    suspend fun insert(users: ScannedDocument)
+interface AppDatabaseHelper {
+    suspend fun getDocuments(): List<ScannedDocument>
+    suspend fun updateFileContent(docName:String,docTitle:String): Int
+    fun getAllScannedDocLive(): LiveData<List<ScannedDocument>>
+    suspend fun insert(scannedDocument: ScannedDocument)
+    suspend fun delete(scannedDocument: List<ScannedDocument>)
 }

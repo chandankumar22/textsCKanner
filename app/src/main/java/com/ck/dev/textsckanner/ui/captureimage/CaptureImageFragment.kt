@@ -2,14 +2,16 @@ package com.ck.dev.textsckanner.ui.captureimage
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
+import android.webkit.MimeTypeMap
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.camera.core.*
@@ -21,16 +23,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.ck.dev.textsckanner.R
+import com.ck.dev.textsckanner.ui.Application
 import com.ck.dev.textsckanner.ui.detectedtext.DetectedTextActivity
 import com.ck.dev.textsckanner.utils.Utility.bitmap
 import com.ck.dev.textsckanner.utils.Utility.detectedText
 import com.ck.dev.textsckanner.utils.Utility.getImageUri
-import com.ck.dev.textsckanner.utils.Utility.saveImageToInternal
 import com.ck.dev.textsckanner.utils.showToast
 import com.ck.dev.textsckanner.utils.toBitmap
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.theartofdev.edmodo.cropper.CropImage
@@ -38,7 +41,6 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_capture_image.*
 import timber.log.Timber
 import java.io.File
-
 
 class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
 
@@ -54,9 +56,24 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startCamera()
         outputDirectory = getOutputDirectory()
         setListeners()
+        if (Application.isGalleryImage) {
+            handleImageFromGalleryScenario()
+        } else {
+            startCamera()
+        }
+    }
+
+    private fun handleImageFromGalleryScenario() {
+        layout_2.visibility = View.VISIBLE
+        layout_1.visibility = View.GONE
+        //retake_btn.visibility = View.GONE
+        Glide.with(requireContext()).load(bitmap).into(captured_image_view)
+        retake_btn.text = "Re-take"
+        retake_btn.setOnClickListener {
+            openGalleryAndSaveUserImage()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -64,29 +81,21 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
         capture_image.setOnClickListener {
             takePicture()
         }
-        capture_fragment_toolbar.setOnTouchListener(OnTouchListener { v, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
-            val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.x >= capture_fragment_toolbar.right - capture_fragment_toolbar.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
-                    - capture_fragment_toolbar.paddingRight
-                ) {
-                    extractTextFromImage()
-                    return@OnTouchListener true
-                } else if (event.x >= capture_fragment_toolbar.left - capture_fragment_toolbar.compoundDrawables[DRAWABLE_LEFT].bounds.width()
-                    - capture_fragment_toolbar.paddingLeft
-                ) {
-                    findNavController().navigate(R.id.action_captureImageFragment_to_homeFragment)
-                    return@OnTouchListener true
-                }
-            }
-            true
-        })
+        scan_btn.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            extractTextFromImage()
+        }
+        capture_back_btn.setOnClickListener {
+            findNavController().navigate(R.id.action_captureImageFragment_to_homeFragment)
+        }
         retake_btn.setOnClickListener {
             layout_2.visibility = View.GONE
             layout_1.visibility = View.VISIBLE
+        }
+        crop_rotate_btn.setOnClickListener {
+            val intent = CropImage.activity(getImageUri(requireContext(), bitmap))
+                .getIntent(requireContext())
+            startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
         }
     }
 
@@ -111,16 +120,49 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
                   val m = j.cornerPoints*/
                 Timber.i(texts.text)
                 detectedText = texts.text
+                progressBar.visibility = View.GONE
                 //savePhotoToStorage(requireContext(),bitmap)
-                saveImageToInternal(bitmap)
-                startActivity(Intent(requireContext(), DetectedTextActivity::class.java))
+                logFirebaseEvent(texts.text)
+                if (detectedText.isEmpty()){
+                    requireContext().showToast("No text found in image.")
+                }
+                else {
+                    startActivity(Intent(requireContext(), DetectedTextActivity::class.java))
+                }
                 /*mTextButton.setEnabled(true)
                 processTextRecognitionResult(texts)*/
+
             }
             .addOnFailureListener { e -> // Task failed with an exception
                 //  mTextButton.setEnabled(true)
+                requireContext().showToast("Error when scanning text. Please try again.")
                 e.printStackTrace()
+                progressBar.visibility = View.GONE
+                val bundle = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, "text_scan_failed")
+                }
+                (requireActivity().application as Application).firebaseAnalytics.logEvent("text_scan_failed",bundle)
             }
+    }
+
+    private fun logFirebaseEvent(str: String) {
+        val bundle = Bundle().apply {
+            putString(FirebaseAnalytics.Param.ITEM_NAME, "text_scan_success")
+            putString("text_scanned_character", str.length.toString())
+        }
+        (requireActivity().application as Application).firebaseAnalytics.logEvent("text_scan_success",bundle)
+
+        if(Application.isGalleryImage){
+            val galleryBundle = Bundle().apply {
+                putString(FirebaseAnalytics.Param.ITEM_NAME, "gallery_image")
+            }
+            (requireActivity().application as Application).firebaseAnalytics.logEvent("gallery_image",galleryBundle)
+        }else{
+            val cameraImg = Bundle().apply {
+                putString(FirebaseAnalytics.Param.ITEM_NAME, "camera_image")
+            }
+            (requireActivity().application as Application).firebaseAnalytics.logEvent("camera_image",cameraImg)
+        }
     }
 
     private fun startCamera() {
@@ -142,7 +184,6 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
     private fun takePicture() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
-
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
@@ -160,7 +201,7 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
 
                     Glide.with(requireContext()).asBitmap().load(bitmap)
                         .apply(requestOptions)
-                        .into(object : SimpleTarget<Bitmap?>() {
+                        .into(object : CustomTarget<Bitmap?>() {
                             override fun onResourceReady(
                                 @NonNull resource: Bitmap,
                                 @Nullable transition: Transition<in Bitmap?>?
@@ -168,18 +209,16 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
                                 bitmap = resource
                                 captured_image_view.setImageBitmap(bitmap)
                             }
-                        })
-                 /*
-                    Glide.with(requireActivity())
-                        .asBitmap()
-                        .load(bitmap)
-                        .into(captured_image_view)*/
-                    crop_rotate_btn.setOnClickListener {
-                        val intent = CropImage.activity(getImageUri(requireContext(), bitmap))
-                            .getIntent(context!!)
-                        startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE)
-                    }
 
+                            override fun onLoadCleared(placeholder: Drawable?) {
+
+                            }
+                        })
+                    /*
+                       Glide.with(requireActivity())
+                           .asBitmap()
+                           .load(bitmap)
+                           .into(captured_image_view)*/
                     layout_2.apply {
                         visibility = View.VISIBLE
                         requireView().findViewById<CropImageView>(R.id.cropImageView)
@@ -217,7 +256,7 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
                     .apply(RequestOptions().override(bitmap.height, bitmap.width))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                    .into(object : SimpleTarget<Bitmap?>() {
+                    .into(object : CustomTarget<Bitmap?>() {
                         override fun onResourceReady(
                             @NonNull resource: Bitmap,
                             @Nullable transition: Transition<in Bitmap?>?
@@ -225,10 +264,14 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
                             bitmap = resource
                             captured_image_view.setImageBitmap(bitmap)
                         }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+
+                        }
                     })
-               /* Glide.with(requireActivity())
-                    .load(resultUri)
-                    .into(captured_image_view)*/
+                /* Glide.with(requireActivity())
+                     .load(resultUri)
+                     .into(captured_image_view)*/
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
                 Timber.e(error, error.toString())
@@ -243,4 +286,71 @@ class CaptureImageFragment : Fragment(R.layout.fragment_capture_image) {
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else requireContext().filesDir
     }
+
+    private fun openGalleryAndSaveUserImage() {
+        Timber.i("openGalleryAndSaveUserImage called")
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        val mimetypes = arrayOf("image/*")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes)
+        launchSomeActivity.launch(intent)
+    }
+
+    private var launchSomeActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+
+                if (data != null && data.data != null) {
+                    try {
+                        val documentUri: Uri = data.data!!
+                        var documentUriExt =
+                            MimeTypeMap.getFileExtensionFromUrl(documentUri.toString())
+                        if (documentUri.scheme!! == ContentResolver.SCHEME_CONTENT) {
+                            val mime = MimeTypeMap.getSingleton()
+                            val ext = mime.getExtensionFromMimeType(
+                                requireActivity().contentResolver.getType(
+                                    documentUri
+                                )
+                            )
+                            if (ext != null) documentUriExt = ext
+
+                        } else {
+                            documentUriExt =
+                                MimeTypeMap.getFileExtensionFromUrl(
+                                    Uri.fromFile(File(documentUri.path!!)).toString()
+                                )
+                        }
+                        if (documentUriExt.isNotEmpty()) {
+                            val type =
+                                MimeTypeMap.getSingleton().getMimeTypeFromExtension(documentUriExt)
+                            if (type == "image/jpeg" || type == "image/jpg" || type == "image/png") {
+                                Glide.with(requireContext()).asBitmap().load(documentUri)
+                                    .into(object : CustomTarget<Bitmap?>() {
+                                        override fun onResourceReady(
+                                            @NonNull resource: Bitmap,
+                                            @Nullable transition: Transition<in Bitmap?>?
+                                        ) {
+                                            bitmap = resource
+                                            Application.isGalleryImage = true
+                                            handleImageFromGalleryScenario()
+                                        }
+
+                                        override fun onLoadCleared(placeholder: Drawable?) {
+
+                                        }
+                                    })
+                            } else {
+                                requireActivity().showToast("Invalid file format")
+                            }
+                        } else {
+                            requireActivity().showToast("Invalid file format")
+                        }
+                    } catch (ex: Exception) {
+                        Timber.e(ex)
+                        requireActivity().showToast("File is corrupted")
+                    }
+                }
+            }
+        }
 }

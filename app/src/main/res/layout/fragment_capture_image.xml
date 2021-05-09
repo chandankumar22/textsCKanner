@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_1"
-        tools:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.components.takepicture.CaptureImageFragment"
-        tools:ignore="UselessParent">
+        tools:ignore="UselessParent"
+        tools:visibility="gone">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/camera_preview"
@@ -23,105 +23,128 @@
             android:id="@+id/capture_image"
             android:layout_width="@dimen/icon_default_size"
             android:layout_height="@dimen/icon_default_size"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/text_bottom_default_mg"
             android:background="@drawable/ic_capture" />
 
     </RelativeLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-android:visibility="gone"
-        tools:visibility="visible"
         android:id="@+id/layout_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:visibility="gone"
+        android:background="@android:color/black"
+        tools:ignore="UselessParent"
+        tools:visibility="visible">
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/capture_fragment_toolbar"
             style="@style/ToolbarStyle"
-            android:text="continue scan"
-            app:drawableEndCompat="@drawable/ic_right_arrow"
-            app:drawableStartCompat="@drawable/ic_left_arrow"
             android:textAllCaps="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/scan_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Scan"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/capture_fragment_toolbar"
+            android:layout_margin="@dimen/_16sdp"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:elevation="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/capture_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:text="Back"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@id/capture_fragment_toolbar"
+            android:layout_margin="@dimen/_16sdp"
+            android:drawableStart="@drawable/ic_left_arrow"
+            android:elevation="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/captured_image_view"
-            android:scaleType="fitXY"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/capture_fragment_toolbar"
+            app:layout_constraintBottom_toTopOf="@id/icon_container"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@drawable/sample"/>
-    <!--    <View
-            android:id="@+id/icon_container"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/shape_bottom_round"
+            tools:src="@drawable/sample" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/loading_bar_layer_list"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />-->
-        <RelativeLayout
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--    <View
+                android:id="@+id/icon_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@drawable/shape_bottom_round"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />-->
+
+        <LinearLayout
             android:id="@+id/icon_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_bottom_round"
-            android:padding="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/retake_btn"
-                android:layout_width="wrap_content"
-                android:elevation="1dp"
-                android:layout_alignParentStart="true"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_retake"/>
+                style="@style/AppTextStyle"
+                android:layout_width="0dp"
+                android:textSize="@dimen/icon_text_size"
+                android:layout_margin="0dp"
+                android:gravity="center"
+                android:text="Retry"
+                android:layout_weight="0.25"
+                app:drawableTopCompat="@drawable/ic_retake"/>
+
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/crop_rotate_btn"
-                android:layout_width="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@drawable/ic_crop_rotate"
-                tools:ignore="RelativeOverlap" />
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/image_name"
                 style="@style/AppTextStyle"
                 android:layout_margin="0dp"
-                android:text="Image name"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content"
-                />
-        </RelativeLayout>
-
-         <!-- <LinearLayout
-            android:id="@+id/layout_2_footer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
-                android:layout_weight="0.33"
-                android:layout_margin="12dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_retake"/>
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="0dp"
-                android:layout_margin="12dp"
-                android:layout_weight="0.33"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_start_scan"/>
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="0dp"
-                android:layout_margin="12dp"
-                android:layout_weight="0.33"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_crop"/>
-        </LinearLayout>-->
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:textSize="@dimen/icon_text_size"
+                android:layout_toEndOf="@id/edit_btn"
+                android:text="Crop"
+                android:textAlignment="center"
+                app:drawableTopCompat="@drawable/ic_crop_rotate"
+                app:layout_constraintEnd_toStartOf="@id/share"
+                app:layout_constraintStart_toEndOf="@id/edit_btn"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

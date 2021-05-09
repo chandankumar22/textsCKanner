@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/header_pd"
-    android:paddingBottom="@dimen/header_pd"
     tools:context=".ui.detectedtext.DetectedTextFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingBottom="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_20sdp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -28,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="0dp"
+                android:visibility="gone"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="top"
                 app:layout_constraintTop_toTopOf="parent"

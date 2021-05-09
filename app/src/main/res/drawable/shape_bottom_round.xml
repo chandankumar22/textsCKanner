@@ -8,8 +8,8 @@
     <corners
         android:bottomLeftRadius="0dp"
         android:bottomRightRadius="0dp"
-        android:topLeftRadius="36dp"
-        android:topRightRadius="36dp" />
+        android:topLeftRadius="@dimen/_36sdp"
+        android:topRightRadius="@dimen/_36sdp" />
 
     <gradient
         android:type="linear"

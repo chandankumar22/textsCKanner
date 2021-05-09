@@ -15,8 +15,7 @@ class DetectedTextAdapter(private val mContext: FragmentActivity) :
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.detected_text_tab_1,
-            R.string.detected_text_tab_2,
-            R.string.detected_text_tab_3
+            R.string.detected_text_tab_2
         )
     }
 
@@ -28,7 +27,7 @@ class DetectedTextAdapter(private val mContext: FragmentActivity) :
         return when (position) {
             0 -> DetectedTextFragment()
             1 -> ImageFragment()
-            2 -> TextOnImageOverlayFragment()
+           /* 2 -> TextOnImageOverlayFragment()*/
             else -> null!!
         }
     }

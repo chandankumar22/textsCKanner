@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_12sdp"
-            android:text="Sort by"
+            android:text="@string/sort_by"
             android:textSize="@dimen/_12ssp"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
@@ -24,7 +24,6 @@
 
         <RadioGroup
             tools:visibility="gone"
-
             android:id="@+id/sort_by_rg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -42,7 +41,7 @@
                 android:textSize="@dimen/_10ssp"
                 android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:text="Name" />
+                android:text="@string/name_rb" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/date_rb"
@@ -50,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:textSize="@dimen/_10ssp"
-                android:text="Date" />
+                android:text="@string/date_rb" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/size_rb"
@@ -58,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_10ssp"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:text="Size" />
+                android:text="@string/size_rb" />
         </RadioGroup>
 
         <com.google.android.material.textview.MaterialTextView
@@ -76,12 +75,11 @@
             android:layout_marginEnd="@dimen/_36sdp"
             android:layout_marginStart="@dimen/_36sdp"
             android:maxLines="1"
-            android:elevation="@dimen/_20sdp"
-            android:maxLength="20"
+            android:elevation="@dimen/_10sdp"
             android:inputType="text"
             android:visibility="gone"
             android:padding="@dimen/_8sdp"
-            android:hint="Enter search query"
+            android:hint="@string/hint_search_file"
             app:backgroundTint="@android:color/white"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
@@ -277,9 +275,9 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/app_logo"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:src="@mipmap/ic_launcher_round"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@mipmap/ic_launcher"
             android:layout_marginTop="@dimen/_22sdp"
             app:layout_constraintStart_toStartOf="@id/app_name_tv"
             app:layout_constraintEnd_toEndOf="@id/app_name_tv"

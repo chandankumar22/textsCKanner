@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Scan"
+            android:text="@string/scan"
             android:textColor="@android:color/white"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/capture_fragment_toolbar"

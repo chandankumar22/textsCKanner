@@ -12,4 +12,10 @@
         4• Search from saved documents by file name or content\n
         5• Share saved documents with your friends and colleagues\n
         6• Delete saved documents\n…and many more</string>
+    <string name="sort_by">Sort by</string>
+    <string name="name_rb">Name</string>
+    <string name="date_rb">Date</string>
+    <string name="size_rb">Size</string>
+    <string name="scan">Scan</string>
+    <string name="hint_search_file">Enter file name or content</string>
 </resources>

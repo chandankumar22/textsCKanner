@@ -6,16 +6,15 @@
     <string name="saved">Saved successfully</string>
     <string name="toolbar_home_title">text sCKanner</string>
     <string name="confirm_delete_content">Are you sure you want to delete %s documents ?</string>
-    <string name="welcome_content">\n1• Open Camera, click picture, extract text\n
-        2• Open Gallery, select picture, extract text\n
-        3• Save document to device storage and view them outside app\n
-        4• Search from saved documents by file name or content\n
-        5• Share saved documents with your friends and colleagues\n
-        6• Delete saved documents\n…and many more</string>
+    <string name="welcome_content">\n1• Open Camera or Gallery, take picture and extract text\n
+        2• Save document to device storage and view them outside app\n
+        3• Search from saved documents by file name or file content\n
+        4• Share saved documents with your friends and colleagues\n…and many more</string>
     <string name="sort_by">Sort by</string>
     <string name="name_rb">Name</string>
     <string name="date_rb">Date</string>
     <string name="size_rb">Size</string>
     <string name="scan">Scan</string>
     <string name="hint_search_file">Enter file name or content</string>
+    <string name="welcome_to_textsckanner">Welcome to textSckanner</string>
 </resources>

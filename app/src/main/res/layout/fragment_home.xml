@@ -268,8 +268,8 @@
             android:textSize="@dimen/_20ssp"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="Welcome to textSckanner"
-            android:layout_marginTop="@dimen/_64sdp"
+            android:text="@string/welcome_to_textsckanner"
+            android:layout_marginTop="@dimen/_32sdp"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -278,7 +278,6 @@
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_150sdp"
             android:src="@mipmap/ic_launcher"
-            android:layout_marginTop="@dimen/_22sdp"
             app:layout_constraintStart_toStartOf="@id/app_name_tv"
             app:layout_constraintEnd_toEndOf="@id/app_name_tv"
             app:layout_constraintTop_toBottomOf="@id/app_name_tv"/>
@@ -292,7 +291,6 @@
             android:gravity="start"
             android:textAlignment="viewStart"
             android:text="@string/welcome_content"
-            android:layout_marginTop="@dimen/_16sdp"
             app:layout_constraintStart_toStartOf="@id/app_logo"
             app:layout_constraintEnd_toEndOf="@id/app_logo"
             app:layout_constraintTop_toBottomOf="@id/app_logo"

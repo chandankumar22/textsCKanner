@@ -1,5 +1,9 @@
 # textsCKanner : Extract text from images
 
+![1](https://user-images.githubusercontent.com/66845472/134799109-56b34cb7-b0c8-4098-8ad9-7c0cd26114d5.jpg)
+![2](https://user-images.githubusercontent.com/66845472/134799111-321117b3-02c0-47ba-99d6-d81902caa820.jpg)
+![3](https://user-images.githubusercontent.com/66845472/134799112-7dd7db32-d202-40b0-ab4f-735bd99e1006.jpg)
+![4](https://user-images.githubusercontent.com/66845472/134799114-a08ea5f4-796a-4989-ada9-0f968847c21b.jpg)
 
 
 A simple and easy to use text scanner which will extract the texts from images
